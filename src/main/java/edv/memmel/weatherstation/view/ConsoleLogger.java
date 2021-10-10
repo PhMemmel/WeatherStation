@@ -20,7 +20,7 @@ public class ConsoleLogger implements PropertyChangeListener {
   public void propertyChange(PropertyChangeEvent evt) {
     if (evt.getPropertyName().equals(WeatherDataCollector.TEMPERATURE_KEY)) {
       double temperature = (double) evt.getNewValue();
-      System.out.println("Neue Temperatur gemessen: " + String.format("%.1f", temperature));
+      System.out.println("Neue Temperatur gemessen: " + String.format("%,1f", temperature));
     } else if (evt.getPropertyName().equals(WeatherDataCollector.WIND_SPEED_KEY)) {
       System.out.println("Neue Windgeschwindigkeit gemessen: " + evt.getNewValue());
     }
