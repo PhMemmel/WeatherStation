@@ -47,48 +47,24 @@ public class WeatherDataCollector {
     support.removePropertyChangeListener(propertyChangeListener);
   }
 
-  /** Simulates receiving of new values. */
-  public void start() {
-    Thread temperatureGeneratorThread =
-        new Thread(
-            () -> {
-              while (true) {
-                Platform.runLater(
-                    () ->
-                        temperatureProperty.set(
-                            ThreadLocalRandom.current().nextDouble(-30.0, 50.0)));
-                support.firePropertyChange(TEMPERATURE_KEY, null, temperatureProperty.getValue());
-                try {
-                  Thread.sleep(ThreadLocalRandom.current().nextInt(200, 1200));
-                } catch (InterruptedException e) {
-                  e.printStackTrace();
-                }
-              }
-            });
-    Thread windSpeedGeneratorThread =
-        new Thread(
-            () -> {
-              while (true) {
-                Platform.runLater(
-                    () -> windSpeedProperty.set(ThreadLocalRandom.current().nextInt(0, 180)));
-                support.firePropertyChange(WIND_SPEED_KEY, null, windSpeedProperty.getValue());
-                try {
-                  Thread.sleep(ThreadLocalRandom.current().nextInt(2000, 4000));
-                } catch (InterruptedException e) {
-                  e.printStackTrace();
-                }
-              }
-            });
-
-    temperatureGeneratorThread.start();
-    windSpeedGeneratorThread.start();
-  }
-
   public DoubleProperty temperatureProperty() {
     return temperatureProperty;
   }
 
   public IntegerProperty windSpeedProperty() {
     return windSpeedProperty;
+  }
+
+  /**
+   * Method to simulate the change of the data hold by this class.
+   */
+  public void randomizeData() {
+    Platform.runLater(
+        () -> {
+          windSpeedProperty.set(ThreadLocalRandom.current().nextInt(0, 180));
+          support.firePropertyChange(WIND_SPEED_KEY, null, windSpeedProperty.getValue());
+          temperatureProperty.set(ThreadLocalRandom.current().nextDouble(-30.0, 50.0));
+          support.firePropertyChange(TEMPERATURE_KEY, null, temperatureProperty.getValue());
+        });
   }
 }

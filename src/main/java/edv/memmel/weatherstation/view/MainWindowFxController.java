@@ -8,16 +8,29 @@ import javafx.scene.control.Label;
 public class MainWindowFxController {
 
   @FXML Label temperatureLabel;
-
   @FXML Label windSpeedLabel;
+  private WeatherDataCollector weatherDataCollector;
+
+  public MainWindowFxController() {
+    weatherDataCollector = WeatherDataCollector.getInstance();
+  }
 
   @FXML
   void initialize() {
+    // Binds the properties of the labels directly to the properties in the data model.
+    // Of course, it would also be possible to implement the PropertyChangeListener interface
+    // in this class and react to the property changes by setting the textProperties of the
+    // labels in this class right here.
     temperatureLabel
         .textProperty()
-        .bind(WeatherDataCollector.getInstance().temperatureProperty().asString("%,1f"));
+        .bind(weatherDataCollector.temperatureProperty().asString("%.1f"));
     windSpeedLabel
         .textProperty()
-        .bind(WeatherDataCollector.getInstance().windSpeedProperty().asString());
+        .bind(weatherDataCollector.windSpeedProperty().asString());
+  }
+
+  @FXML
+  void loadData() {
+    weatherDataCollector.randomizeData();
   }
 }

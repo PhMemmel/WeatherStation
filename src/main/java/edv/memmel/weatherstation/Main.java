@@ -22,6 +22,5 @@ public class Main {
     }
     WeatherDataCollector weatherDataCollector = WeatherDataCollector.getInstance();
     new ConsoleLogger(weatherDataCollector);
-    weatherDataCollector.start();
   }
 }
